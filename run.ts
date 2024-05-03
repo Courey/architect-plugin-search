@@ -127,9 +127,7 @@ export async function launch({
 
   const bin = await install(engine)
   const props = { engine, dataDir, logsDir, options, port }
-  const { kill, waitUntilStopped } = await (bin
-    ? launchBinary({ bin, ...props })
-    : launchDocker(props))
+  const { kill, waitUntilStopped } = await launchDocker(props)
 
   try {
     await Promise.race([
