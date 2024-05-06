@@ -63,10 +63,7 @@ const launchDocker: SearchEngineLauncherFunction = async ({
   port,
   options,
 }) => {
-  const Image =
-    engine === 'elasticsearch'
-      ? 'elastic/elasticsearch:8.13.3'
-      : 'opensearchproject/opensearch:2.11.0'
+  const Image = 'docker.elastic.co/elasticsearch/elasticsearch:8.13.3'
   console.log('Launching Docker container', Image)
   const docker = new Dockerode()
   const container = await docker.createContainer({
