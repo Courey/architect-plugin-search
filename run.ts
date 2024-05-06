@@ -68,10 +68,6 @@ const launchDocker: SearchEngineLauncherFunction = async ({
   const docker = new Dockerode()
   const container = await docker.createContainer({
     Env: [...options, 'path.data=/var/lib/search', 'path.logs=/var/log/search'],
-    Healthcheck: {
-      Test: ['CMD', 'curl', '-f', `127.0.0.1:${port}`],
-      Interval: 30000000000,
-    },
     HostConfig: {
       AutoRemove: true,
       Mounts: [
