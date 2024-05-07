@@ -111,7 +111,7 @@ async function launchListener({
       stdio: 'ignore',
     }
   )
-
+  console.log(`HEARTBEAT PROCESS: ${subprocess.pid}`)
   subprocess.unref()
 }
 
