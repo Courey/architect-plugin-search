@@ -83,6 +83,7 @@ const launchDocker: SearchEngineLauncherFunction = async ({
   const stream = await container.attach({ stream: true, stderr: true })
   stream.pipe(process.stderr)
   await container.start()
+  launchListener({ parentPID: process.pid, containerId: container.id })
 
   return {
     async kill() {
@@ -93,6 +94,25 @@ const launchDocker: SearchEngineLauncherFunction = async ({
       await container.wait()
     },
   }
+}
+
+async function launchListener({
+  parentPID,
+  containerId,
+}: {
+  parentPID: number
+  containerId: string
+}) {
+  const subprocess = await spawn(
+    'sh',
+    ['heartbeat.sh', parentPID.toString(), containerId],
+    {
+      detached: true,
+      stdio: 'ignore',
+    }
+  )
+
+  subprocess.unref()
 }
 
 export async function launch({
