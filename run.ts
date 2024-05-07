@@ -103,24 +103,14 @@ async function launchListener({
   parentPID: number
   containerId: string
 }) {
-  process.on('SIGINT', () => {
-    console.log('SIGINT IN LAUNCH LISTENER')
-  })
-  process.on('SIGTERM', () => {
-    console.log('SIGTERM IN LAUNCH LISTENER')
-  })
-  process.on('EXIT', () => {
-    console.log('EXIT IN LAUNCH LISTENER')
-  })
   const subprocess = await spawn(
-    'sh',
-    ['heartbeat.sh', parentPID.toString(), containerId],
+    'node',
+    ['heartbeat.js', parentPID.toString(), containerId],
     {
       detached: true,
       stdio: 'ignore',
     }
   )
-  console.log(`HEARTBEAT PROCESS: ${subprocess.pid}`)
   subprocess.unref()
 }
 
